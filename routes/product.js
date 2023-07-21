@@ -37,7 +37,7 @@ router.post('/product',(req,res)=>{
 	})
 })
 router.get('/product/:id',(req,res)=>{
-
+	console.log(req.params.id)
 })
 
 module.exports = router

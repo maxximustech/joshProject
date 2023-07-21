@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Top navbar example · Bootstrap v5.2</title>
+
+    <link href="/bootstrap.min.css" rel="stylesheet">
+
+    <meta name="theme-color" content="#712cf9">
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Josh Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="bg-light p-5 rounded text-center">
+        <img src="<%= product.imageUrl %>" width="300px" height="auto"/>
+        <h1 class="mb-4"><%= product.title %></h1>
+        <hr/>
+        <p class="mt-4"><%= product.description %></p>
+    </div>
+</main>
+
+
+<script src="/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -36,8 +36,41 @@ router.post('/product',(req,res)=>{
 		res.redirect('/create-product')
 	})
 })
+
 router.get('/product/:id',(req,res)=>{
-	console.log(req.params.id)
+	fs.readFile('products.json',(err,data)=>{
+		if(err){
+			res.send('An error occurred!');
+			return;
+		}
+		let products = JSON.parse(data);
+		let product = products.find(function(item){
+			return +item.id === +req.params.id
+		})
+		if(product == null){
+			return res.send('No Product Found')
+		}
+		res.render('single-product',{product: product})
+		console.log('Final destination')
+	})
+	console.log('Reached here')
+})
+
+router.get('/edit-product/:id',(req,res)=>{
+	fs.readFile('products.json',(err,data)=>{
+		if(err){
+			res.send('An error occurred!');
+			return;
+		}
+		let products = JSON.parse(data);
+		let product = products.find(function(item){
+			return +item.id === +req.params.id
+		})
+		if(product == null){
+			return res.send('No Product Found')
+		}
+		res.render('edit-product',{product: product})
+	})
 })
 
 module.exports = router

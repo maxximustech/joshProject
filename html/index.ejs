@@ -45,10 +45,14 @@
         for(let i = 0; i < products.length; i++){
       %>
         <div class="col-3">
-          <div style="height: 250px; width: 100%; padding: 20px; border-radius: 20px; background-color: ghostwhite; border: thin solid grey;">
-            <img src="<%= products[i].imageUrl %>" width="100%"/>
-            <h5><%= products[i].title %></h5>
-            <h6>N<%= parseInt(products[i].price).toLocaleString('en-GB') %></h6>
+          <div style="position: relative; height: 250px; width: 100%; border-radius: 20px; background-color: ghostwhite; background-image: url(<%= products[i].imageUrl %>); background-repeat: no-repeat; background-size: contain; border: thin solid grey;">
+            <div class="" style="margin-top: 100px; background-color: white; padding: 20px;">
+              <h5><%= products[i].title %></h5>
+              <h6>N<%= parseInt(products[i].price).toLocaleString('en-GB') %></h6>
+              <div class="text-end">
+                <a href="/product/<%= products[i].id %>" class="btn btn-primary">View</a>
+              </div>
+            </div>
           </div>
         </div>
       <%

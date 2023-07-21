@@ -28,11 +28,16 @@ router.post('/product',(req,res)=>{
 		if(!err){
 			existingProducts = JSON.parse(data)
 		}
-		existingProducts.unshift(req.body)
+		existingProducts.unshift({
+			...req.body,
+			id: Date.now(),
+		})
 		fs.writeFileSync('products.json',JSON.stringify(existingProducts))
 		res.redirect('/create-product')
 	})
 })
+router.get('/product/:id',(req,res)=>{
 
+})
 
 module.exports = router

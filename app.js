@@ -5,7 +5,7 @@ const port = 3000
 const fs = require('fs')
 
 app.set('view engine','ejs')
-app.set('views','html')
+app.set('views','views')
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 

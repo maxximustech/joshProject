@@ -56,22 +56,6 @@ router.get('/product/:id',(req,res)=>{
 	console.log('Reached here')
 })
 
-router.get('/edit-product/:id',(req,res)=>{
-	fs.readFile('products.json',(err,data)=>{
-		if(err){
-			res.send('An error occurred!');
-			return;
-		}
-		let products = JSON.parse(data);
-		let product = products.find(function(item){
-			return +item.id === +req.params.id
-		})
-		if(product == null){
-			return res.send('No Product Found')
-		}
-		res.render('edit-product',{product: product})
-	})
-})
 
 router.post('/edit-product/:id',(req,res)=>{
 	if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){

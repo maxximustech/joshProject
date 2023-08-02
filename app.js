@@ -4,6 +4,9 @@ const app = express()
 const port = 3000
 const fs = require('fs')
 
+const productModel = require('./models/product')
+const productController = require('./controllers/product')
+
 app.set('view engine','ejs')
 app.set('views','views')
 app.use(express.urlencoded({ extended: false }))
@@ -13,10 +16,7 @@ const productRoutes = require('./routes/product')
 
 app.use(productRoutes)
 
-app.get('/',(req,res)=>{
-	let productData = JSON.parse(fs.readFileSync('products.json',{'encoding':'utf8'}))
-	res.render('index',{products: productData})
-})
+app.get('/',productController.getAllProducts)
 app.get('/login',(req,res)=>{
 	//console.log(path.join(__dirname,'login.html'))
 	res.render('login')

@@ -33,7 +33,7 @@ class Product{
         let products = readFile();
         if(this.id != null){
             let index = products.findIndex((product)=>{
-                return product.id == id;
+                return product.id == this.id;
             })
             if(index < 0){
                 throw new Error(`Product with id: ${this.id} could not be found`);
@@ -63,6 +63,3 @@ class Product{
     }
 }
 module.exports = Product;
-// let productItem = new Person(7676348758743,{title: 'A cup'})
-// productItem.fetch()
-// Product.fetch()

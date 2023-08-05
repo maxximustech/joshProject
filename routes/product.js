@@ -12,4 +12,6 @@ router.get('/edit-product/:id',productController.editProductPage)
 
 router.post('/edit-product/:id',productController.updateProduct)
 
+router.get ('/search', productController.searchProductPage)
+
 module.exports = router

@@ -14,6 +14,10 @@ exports.singleProductPage = (req,res)=>{
     res.render('single-product',{product: product})
 }
 
+exports.searchProductPage = (req,res)=>{
+    res.send('This is a search page')
+}
+
 exports.editProductPage = (req,res)=>{
     let product = productModel.fetchOne(req.params.id)
     res.render('edit-product',{product: product})

@@ -1,11 +1,14 @@
 const { Sequelize } = require('sequelize');
-const db = new Sequelize('josh','root','Maxximus2013.',{
+
+const Product = require('./models/product');
+const User = require ('./models/user')
+const db = new Sequelize('josh','root','Maxximus2013',{
     host: 'localhost',
     dialect: 'mysql'
 });
 
-db.authenticate().then(response=>{
-    console.log(response)
-}).catch(err=>{
-    console.log(err)
-});
+db.define(Product.modelName,Product.attributes);
+db.define(User.modelName, User.attributes);
+
+module.exports = db;
+

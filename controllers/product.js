@@ -1,8 +1,15 @@
-const productModel = require('../models/product')
+const db = require('../database');
+const Product = db.models.Product;
 
 exports.getAllProducts = (req,res)=>{
-    let productData = productModel.fetchAll()
-    res.render('index',{products: productData})
+    Product.findAll()
+        .then(products=>{
+            res.render('index',{products: products})
+        })
+        .catch(err=>{
+        throw err;
+    });
+
 }
 
 exports.newProductPage = (req,res)=>{
@@ -10,20 +17,31 @@ exports.newProductPage = (req,res)=>{
 }
 
 exports.singleProductPage = (req,res)=>{
-    let product = productModel.fetchOne(req.params.id)
-    res.render('single-product',{product: product})
+    Product.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then(product=>{
+        res.render('single-product',{product: product})
+    }).catch(err=>{
+        throw err;
+    });
 }
 
 exports.searchProductPage = (req,res)=>{
     res.send('This is a search page')
 }
 
-exports.editProductPage = (req,res)=>{
-    let product = productModel.fetchOne(req.params.id)
+exports.editProductPage = async (req,res)=>{
+    let product = await Product.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
     res.render('edit-product',{product: product})
 }
 
-exports.createNewProduct = (req,res)=>{
+exports.createNewProduct = async (req,res)=>{
     if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
         return res.send('Title not specified')
     }
@@ -39,12 +57,11 @@ exports.createNewProduct = (req,res)=>{
     if(req.body.description.length < 6){
         return res.send('Description too short')
     }
-    let newProduct = new productModel(null,req.body)
-    newProduct.save()
+    await Product.create(req.body);
     res.redirect('/create-product')
 }
 
-exports.updateProduct = (req,res)=>{
+exports.updateProduct = async (req,res)=>{
     if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
         return res.send('Title not specified')
     }
@@ -60,7 +77,10 @@ exports.updateProduct = (req,res)=>{
     if(req.body.description.length < 6){
         return res.send('Description too short')
     }
-    let existingProduct = new productModel(req.params.id,req.body)
-    existingProduct.save()
+    await Product.update(req.body,{
+        where: {
+            id: req.params.id
+        }
+    })
     res.redirect('/edit-product/'+req.params.id)
 }

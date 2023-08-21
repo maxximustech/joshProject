@@ -14,4 +14,8 @@ router.post('/edit-product/:id',productController.updateProduct)
 
 router.get ('/search', productController.searchProductPage)
 
+router.get('/jquery',(req,res)=>{
+    res.render('jquery');
+})
+
 module.exports = router

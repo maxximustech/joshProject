@@ -14,29 +14,64 @@
     
 <%- include('widgets/header') %>
 
-<main class="container">
-  <div class="bg-light p-5 rounded">
-    <h1>All Products</h1>
-    <div class="row">
-      <%
-        for(let i = 0; i < products.length; i++){
-      %>
-        <div class="col-3 mb-4" style="">
-          <div style="position: relative; height: 250px; width: 100%; border-radius: 20px; background-color: ghostwhite; background-image: url(<%= products[i].imageUrl %>); background-repeat: no-repeat; background-size: contain; border: thin solid grey;">
-            <div class="" style="margin-top: 100px; background-color: white; padding: 20px;">
-              <h5><%= products[i].title %></h5>
-              <h6>N<%= parseInt(products[i].price).toLocaleString('en-GB') %></h6>
-              <div class="text-end">
-                <a href="/product/<%= products[i].id %>" class="btn btn-primary">View</a>
-                <a href="/edit-product/<%= products[i].id %>" class="btn btn-primary">Edit</a>
+<main class="container-fluid">
+  <div class="row p-4">
+    <div class="col-9">
+      <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-9">
+          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://ng.jumia.is/cms/0-5-brand-festival/2023/BF-Slider.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://ng.jumia.is/cms/0-1-initiatives/flashsale/2023/Revamp/Desktop_Homepage_Slider__712x384.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://ng.jumia.is/cms/0-CMS-MIGRATION-2020/defacto/2023/June/defacto-slider.jpg" class="d-block w-100" alt="...">
               </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
-      <%
-        }
-      %>
+        <div class="col-12 mt-5">
+          <div class="row">
+            <%
+            for(let i = 0; i < products.length; i++){
+            %>
+
+              <div class="col-12 col-md-4 col-lg-3 mb-4" style="">
+                <div class="card">
+                  <div style="background-image: url(<%= products[i].imageUrl %>); background-size: cover; background-repeat: no-repeat; height: 150px; border-radius: 10px;"></div>
+                  <div class="card-body">
+                    <h5 class="card-title"><%= products[i].title %></h5>
+                    <p class="card-text"><%= products[i].description %></p>
+                    <h6>N<%= parseInt(products[i].price).toLocaleString('en-GB') %></h6>
+                    <div class="text-end">
+                      <a href="/product/<%= products[i].id %>" class="btn btn-primary">View</a>
+                      <a href="/edit-product/<%= products[i].id %>" class="btn btn-primary">Edit</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <%
+            }
+            %>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="col-3"></div>
   </div>
 </main>
 

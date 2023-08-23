@@ -1,5 +1,6 @@
 const db = require('../database');
 const Product = db.models.Product;
+const productCategory = db.models.productCategory;
 
 exports.getAllProducts = (req,res)=>{
     Product.findAll()
@@ -83,4 +84,57 @@ exports.updateProduct = async (req,res)=>{
         }
     })
     res.redirect('/edit-product/'+req.params.id)
+}
+
+exports.getCategories = async (req,res)=>{
+    const categories = await productCategory.findAll();
+    res.render('product-category',{
+        categories: categories
+    });
+}
+exports.createCategory = async (req,res)=>{
+    try{
+        if(typeof req.body.categoryName !== 'string' || req.body.categoryName.trim() === ''){
+            return res.send('Category name not valid');
+        }
+        let existingCategory = await productCategory.findOne({
+            where: {
+                name: req.body.categoryName
+            }
+        });
+        if(existingCategory != null){
+            return res.send('Category already exists');
+        }
+        await productCategory.create({
+            name: req.body.categoryName
+        });
+        res.redirect('/categories');
+    }catch(err){
+        res.send(err.message);
+    }
+}
+
+exports.editCategory = async (req,res)=>{
+    try{
+        if(typeof req.body.categoryName !== 'string' || req.body.categoryName.trim() === ''){
+            return res.send('Category name not valid');
+        }
+        if(+req.body.categoryId < 1){
+            return res.send('Category ID not valid');
+        }
+        let existingCategory = await productCategory.findOne({
+            where: {
+                id: req.body.categoryId
+            }
+        });
+        if(existingCategory == null){
+            return res.send('Category does not exist');
+        }
+        await existingCategory.update({
+            name: req.body.categoryName
+        });
+        res.redirect('/categories');
+    }catch(err){
+        res.send(err.message);
+    }
 }

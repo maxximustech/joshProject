@@ -16,6 +16,12 @@ router.get ('/search', productController.searchProductPage)
 
 router.get('/jquery',(req,res)=>{
     res.render('jquery');
-})
+});
+
+router.get('/categories',productController.getCategories);
+router.post('/create-category',productController.createCategory);
+
+router.post('/edit-category',productController.editCategory);
+router.get('/delete-category/:id')
 
 module.exports = router

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Category</title>
+
+    <link href="/bootstrap.min.css" rel="stylesheet">
+
+    <meta name="theme-color" content="#712cf9">
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+<body>
+
+<%- include('widgets/header') %>
+
+<main class="container">
+    <div class="bg-light p-5 rounded">
+        <h1>Product Categories</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Create New
+        </button>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% categories.forEach((category)=>{
+            %>
+                <tr>
+                    <th scope="row"><%= category.id %></th>
+                    <td><%= category.name %></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="updateCategoryInfo('<%= category.name %>','<%= category.id %>')">Edit</button>
+                        <a class="btn btn-sm btn-danger" href="/delete-category/<%= category.id %>">Delete</a>
+                    </td>
+                </tr>
+            <%
+            })
+            %>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Create New Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/create-category" method="POST">
+                    <label for="name" class="mb-2">Name</label>
+                    <input class="form-control" type="text" name="categoryName" id="name"/>
+                    <div class="text-end mt-3">
+                        <button class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/edit-category" method="POST">
+                    <label for="edit-id" class="mb-2">ID</label>
+                    <input class="form-control mb-3" type="text" name="categoryId" id="edit-id" readonly/>
+                    <label for="edit-name" class="mb-2">Name</label>
+                    <input class="form-control" type="text" name="categoryName" id="edit-name"/>
+                    <div class="text-end mt-3">
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+<script>
+    function updateCategoryInfo(name,id){
+        $('#edit-name').val(name);
+        $('#edit-id').val(id);
+    }
+</script>
+
+</body>
+</html>

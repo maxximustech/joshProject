@@ -19,7 +19,11 @@
     <div class="col-9">
       <div class="row">
         <div class="col-3">
-
+          <% categories.forEach((category)=>{
+          %>
+            <a class="btn btn-primary w-100 mb-2"><%= category.name %></a>
+          <%
+          }) %>
         </div>
         <div class="col-9">
           <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -51,15 +55,19 @@
             %>
 
               <div class="col-12 col-md-4 col-lg-3 mb-4" style="">
-                <div class="card">
+                <div class="card" style="position:relative;">
+                  <div class="m-1" style="position: absolute; right: 5px; top: 5px;">
+                    <a href="/add-to-cart/<%= products[i].id %>" class="btn btn-primary btn-sm" style="font-size: 10px;">Add to Cart</a>
+                  </div>
                   <div style="background-image: url(<%= products[i].imageUrl %>); background-size: cover; background-repeat: no-repeat; height: 150px; border-radius: 10px; background-position: center;"></div>
                   <div class="card-body">
                     <h5 class="card-title"><%= products[i].title %></h5>
                     <p class="card-text"><%= products[i].description %></p>
                     <h6>N<%= parseInt(products[i].price).toLocaleString('en-GB') %></h6>
                     <div class="text-end">
-                      <a href="/product/<%= products[i].id %>" class="btn btn-primary">View</a>
-                      <a href="/edit-product/<%= products[i].id %>" class="btn btn-primary">Edit</a>
+                      <a href="/product/<%= products[i].id %>" class="btn btn-primary btn-sm">View</a>
+                      <a href="/edit-product/<%= products[i].id %>" class="btn btn-primary btn-sm">Edit</a>
+                      <a href="/delete-product/<%= products[i].id %>" class="btn btn-danger btn-sm product-delete-btn">Delete</a>
                     </div>
                   </div>
                 </div>
@@ -71,12 +79,35 @@
         </div>
       </div>
     </div>
-    <div class="col-3"></div>
+    <div class="col-3">
+      <% carts.forEach((product)=>{
+      %>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="<%= product.imageUrl %>" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= product.title %></h5>
+                <p class="card-text"><%= product.price %></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      <%
+      }) %>
+    </div>
   </div>
 </main>
-
-
-    <script src="/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+  <script>
+    $('.product-delete-btn').on('click',function(){
+      return confirm('Are you sure you want to delete this product?')
+    });
+  </script>
 
       
   </body>

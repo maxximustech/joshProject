@@ -35,9 +35,11 @@
 				<div class="form-group">
 					<label>Category</label>
 					<select name="category" class="form-control">
-						<option>Electronics</option>
-						<option>Skincare</option>
-						<option>Fashion</option>
+						<% productCategories.forEach((category)=>{
+						%>
+							<option><%= category.name %></option>
+						<%
+						}) %>
 					</select>
 				</div>
 			</div>

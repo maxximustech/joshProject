@@ -1,20 +1,39 @@
 const db = require('../database');
 const Product = db.models.Product;
 const productCategory = db.models.productCategory;
+const Cart = db.models.Cart;
 
-exports.getAllProducts = (req,res)=>{
-    Product.findAll()
-        .then(products=>{
-            res.render('index',{products: products})
-        })
-        .catch(err=>{
-        throw err;
-    });
-
+exports.getAllProducts = async (req,res)=>{
+    try{
+        let products = await Product.findAll();
+        let categories = await productCategory.findAll({
+            order: [['name','ASC']]
+        });
+        let carts = await Cart.findAll();
+        let productIds = carts.map((cart)=>{
+            return cart.dataValues.productId;
+        });
+        //[1,2,3]
+        let cartProducts = await Product.findAll({
+            where: {
+                id: productIds
+            }
+        });
+        res.render('index',{products: products, categories: categories,carts: cartProducts})
+    }catch(err){
+        res.send(err.message);
+    }
 }
 
-exports.newProductPage = (req,res)=>{
-    res.render('new-product')
+exports.newProductPage = async (req,res)=>{
+    try{
+        let categories = await productCategory.findAll({
+            order: [['name','ASC']]
+        });
+        res.render('new-product',{productCategories: categories})
+    }catch(err){
+
+    }
 }
 
 exports.singleProductPage = (req,res)=>{
@@ -134,6 +153,72 @@ exports.editCategory = async (req,res)=>{
             name: req.body.categoryName
         });
         res.redirect('/categories');
+    }catch(err){
+        res.send(err.message);
+    }
+}
+
+exports.deleteCategory = async(req,res)=>{
+    try{
+        let category = await productCategory.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if(category == null){
+            return res.send('Category not found');
+        }
+        await category.destroy();
+        res.redirect('/categories');
+    }catch(err){
+        res.send(err.message);
+    }
+}
+
+exports.deleteProduct = async (req, res)=>{
+    try{
+        let product = await Product.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if(product == null){
+            res.send('Product not found');
+            return;
+        }
+        await product.destroy();
+        res.redirect('/');
+    }catch (err){
+        res.send(err.message);
+    }
+}
+exports.addToCart = async (req,res)=>{
+    try{
+        let id = req.params.id;
+        let product = await Product.findOne({
+            where: {
+                id: id
+            }
+        });
+        if(product == null){
+            return res.send('Product does not exist');
+        }
+        let productCart = await Cart.findOne({
+            where: {
+                productId: product.id
+            }
+        });
+        if(productCart == null){
+            await Cart.create({
+                productId: product.id,
+                quantity: 1
+            });
+        }else{
+            await productCart.update({
+                quantity: +productCart.quantity + 1
+            })
+        }
+        res.redirect('/');
     }catch(err){
         res.send(err.message);
     }

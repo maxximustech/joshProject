@@ -22,6 +22,8 @@ router.get('/categories',productController.getCategories);
 router.post('/create-category',productController.createCategory);
 
 router.post('/edit-category',productController.editCategory);
-router.get('/delete-category/:id')
+router.get('/delete-category/:id',productController.deleteCategory);
+router.get('/delete-product/:id',productController.deleteProduct);
+router.get('/add-to-cart/:id',productController.addToCart);
 
 module.exports = router

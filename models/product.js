@@ -10,16 +10,16 @@ const Product = {
             type: DataTypes.DOUBLE,
             allowNull: false
         },
-        category: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
         description: {
             type: DataTypes.TEXT,
             allowNull: false
         },
         imageUrl: {
             type: DataTypes.TEXT,
+            allowNull: false
+        },
+        userId: {
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     }

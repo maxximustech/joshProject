@@ -10,10 +10,37 @@ const db = new Sequelize('josh','root','Maxximus2013',{
     dialect: 'mysql'
 });
 
-db.define(Product.modelName,Product.attributes);
-db.define(User.modelName, User.attributes);
-db.define(productCategory.modelName, productCategory.attributes);
-db.define(Cart.modelName, Cart.attributes);
+const productModel = db.define(Product.modelName,Product.attributes);
+const userModel = db.define(User.modelName, User.attributes);
+const productCategoryModel = db.define(productCategory.modelName, productCategory.attributes);
+const cartModel = db.define(Cart.modelName, Cart.attributes);
+
+userModel.hasMany(productModel,{
+    foreignKey: 'userId'
+});
+productModel.belongsTo(userModel,{
+    foreignKey: 'userId'
+});
+
+cartModel.belongsTo(productModel,{
+    foreignKey: 'productId'
+});
+
+cartModel.belongsTo(userModel,{
+    foreignKey: 'userId'
+});
+
+userModel.hasMany(cartModel,{
+    foreignKey: 'userId'
+});
+
+productModel.belongsToMany(productCategoryModel,{
+    through: 'proCat'
+});
+
+productCategoryModel.belongsToMany(productModel,{
+    through: 'proCat'
+});
 
 module.exports = db;
 

@@ -2,6 +2,7 @@ const db = require('../database');
 const Product = db.models.Product;
 const productCategory = db.models.productCategory;
 const Cart = db.models.Cart;
+const User = db.models.User;
 
 exports.getAllProducts = async (req,res)=>{
     try{
@@ -62,23 +63,33 @@ exports.editProductPage = async (req,res)=>{
 }
 
 exports.createNewProduct = async (req,res)=>{
-    if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
-        return res.send('Title not specified')
+    try{
+        if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
+            return res.send('Title not specified')
+        }
+        if(typeof req.body.price !== 'string'|| req.body.price.trim() === '' || parseInt(req.body.price) <= 0){
+            return res.send('Price is not valid')
+        }
+        if(typeof req.body.category === "undefined"){
+            return res.send('Category not specified')
+        }
+        if(typeof req.body.description !== 'string' || req.body.description.trim() === ''){
+            return res.send('Description not specified')
+        }
+        if(req.body.description.length < 6){
+            return res.send('Description too short')
+        }
+        const product = await Product.create({
+            ...req.body,
+            userId: 1
+        },{
+            include: [productCategory]
+        });
+        product.setProductCategories(req.body.category);//'1' || ['1','2']
+        res.redirect('/create-product')
+    }catch(err){
+        res.send(err.message);
     }
-    if(typeof req.body.price !== 'string'|| req.body.price.trim() === '' || parseInt(req.body.price) <= 0){
-        return res.send('Price is not valid')
-    }
-    if(typeof req.body.category !== 'string' || req.body.category.trim() === ''){
-        return res.send('Category not specified')
-    }
-    if(typeof req.body.description !== 'string' || req.body.description.trim() === ''){
-        return res.send('Description not specified')
-    }
-    if(req.body.description.length < 6){
-        return res.send('Description too short')
-    }
-    await Product.create(req.body);
-    res.redirect('/create-product')
 }
 
 exports.updateProduct = async (req,res)=>{

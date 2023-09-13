@@ -13,9 +13,11 @@ app.set('views','views')
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 
-const productRoutes = require('./routes/product')
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
 
-app.use(productRoutes)
+app.use(productRoutes);
+app.use(authRoutes);
 
 app.get('/',productController.getAllProducts)
 

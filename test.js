@@ -2,18 +2,13 @@ const db = require('./database');
 
 const Product = db.models.Product;
 const User = db.models.User;
+const Cart = db.models.Cart;
 const productCategory = db.models.productCategory;
 db.sync().then(async result=>{
-    let user = await User.findOne({
-        where: {
-            id: 1
-        },
-        include: [{
-            model: Product,
-            include: [productCategory]
-        }]
+    let carts = await Cart.findAll({
+        include: Product
     });
-    console.log(user.dataValues);
+    console.log(carts);
 }).catch(err=>{
     console.log(err);
 });

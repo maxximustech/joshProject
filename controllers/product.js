@@ -10,17 +10,10 @@ exports.getAllProducts = async (req,res)=>{
         let categories = await productCategory.findAll({
             order: [['name','ASC']]
         });
-        let carts = await Cart.findAll();
-        let productIds = carts.map((cart)=>{
-            return cart.dataValues.productId;
+        let carts = await Cart.findAll({
+            include: Product
         });
-        //[1,2,3]
-        let cartProducts = await Product.findAll({
-            where: {
-                id: productIds
-            }
-        });
-        res.render('index',{products: products, categories: categories,carts: cartProducts})
+        res.render('index',{products: products, categories: categories,carts: carts})
     }catch(err){
         res.send(err.message);
     }

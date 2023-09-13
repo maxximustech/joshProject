@@ -1,15 +1,69 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Register</title>
-	</head>
-	<body>
-		<form action="/signup" method="POST" enctype="application/x-www-form-urlencoded">
-			<input type="text" name="firstName" placeholder="First Name"/><br/>
-			<input type="text" name="lastName" placeholder="Last Name"/><br/>
-			<input type="email" name="email" placeholder="Email Address"/><br/>			
-			<input type="password" name="password" placeholder="Password"/><br/>
-			<button type="submit">Create Account</button>
-		</form>
-	</body>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Top navbar example · Bootstrap v5.2</title>
+
+	<link href="/bootstrap.min.css" rel="stylesheet">
+
+	<meta name="theme-color" content="#712cf9">
+	<link href="navbar-top.css" rel="stylesheet">
+</head>
+<body>
+
+<%- include('widgets/header') %>
+
+<main class="container">
+	<div class="row">
+		<div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 mt-5">
+			<div class="bg-light p-5 rounded">
+				<h1>Create an account</h1>
+				<form action="/sign-up" method="POST">
+					<div class="row mt-3">
+						<div class="col-12">
+							<div class="form-group">
+								<label>First Name</label>
+								<input class="form-control" type="text" name="firstName"/>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label>Last Name</label>
+								<input class="form-control" type="text" name="lastName"/>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label>Email address</label>
+								<input class="form-control" type="email" name="email"/>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label>Age</label>
+								<input class="form-control" type="number" name="age" min="10"/>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label>Password</label>
+								<input class="form-control" type="password" name="password"/>
+							</div>
+						</div>
+						<div class="col-12 mt-4 text-end">
+							<button class="btn btn-primary">Create</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+<script src="/bootstrap.min.js"></script>
+
+
+</body>
 </html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Top navbar example · Bootstrap v5.2</title>
+
+    <link href="/bootstrap.min.css" rel="stylesheet">
+
+    <meta name="theme-color" content="#712cf9">
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+<body>
+
+<%- include('widgets/header') %>
+
+<main class="container">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 mt-5">
+            <div class="bg-light p-5 rounded">
+                <h1>Error!</h1>
+                <h4><%= message %></h4>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script src="/bootstrap.min.js"></script>
+
+
+</body>
+</html>

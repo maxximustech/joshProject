@@ -44,6 +44,10 @@ exports.postSignUp = async (req,res)=>{
 
 exports.getLoginPage = async (req,res)=>{
     try{
+        if(typeof req.session.user !== "undefined"){
+            req.session.expires = new Date(Date.now() + 86400000);
+            return res.redirect('/');
+        }
         res.render('login');
     }catch(err){
         res.render('error',{message: err.message});
@@ -69,7 +73,8 @@ exports.postLogin = async (req,res)=>{
         if(!bcrypt.compareSync(data.password,authUser.password)){
             throw new Error('The password you have entered is incorrect');
         }
-        res.redirect('/');
+        req.session.user = authUser.dataValues;
+        res.redirect(req.path);
     }catch(err){
         res.render('error',{message: err.message});
     }

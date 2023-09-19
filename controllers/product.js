@@ -21,6 +21,9 @@ exports.getAllProducts = async (req,res)=>{
 
 exports.newProductPage = async (req,res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         let categories = await productCategory.findAll({
             order: [['name','ASC']]
         });
@@ -47,6 +50,9 @@ exports.searchProductPage = (req,res)=>{
 }
 
 exports.editProductPage = async (req,res)=>{
+    if(typeof req.session.user === "undefined"){
+        return res.render('login');
+    }
     let product = await Product.findOne({
         where: {
             id: req.params.id
@@ -57,6 +63,9 @@ exports.editProductPage = async (req,res)=>{
 
 exports.createNewProduct = async (req,res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
             return res.send('Title not specified')
         }
@@ -86,6 +95,9 @@ exports.createNewProduct = async (req,res)=>{
 }
 
 exports.updateProduct = async (req,res)=>{
+    if(typeof req.session.user === "undefined"){
+        return res.render('login');
+    }
     if(typeof req.body.title !== 'string' || req.body.title.trim() === ''){
         return res.send('Title not specified')
     }
@@ -110,6 +122,9 @@ exports.updateProduct = async (req,res)=>{
 }
 
 exports.getCategories = async (req,res)=>{
+    if(typeof req.session.user === "undefined"){
+        return res.render('login');
+    }
     const categories = await productCategory.findAll();
     res.render('product-category',{
         categories: categories
@@ -117,6 +132,9 @@ exports.getCategories = async (req,res)=>{
 }
 exports.createCategory = async (req,res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         if(typeof req.body.categoryName !== 'string' || req.body.categoryName.trim() === ''){
             return res.send('Category name not valid');
         }
@@ -139,6 +157,9 @@ exports.createCategory = async (req,res)=>{
 
 exports.editCategory = async (req,res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         if(typeof req.body.categoryName !== 'string' || req.body.categoryName.trim() === ''){
             return res.send('Category name not valid');
         }
@@ -164,6 +185,9 @@ exports.editCategory = async (req,res)=>{
 
 exports.deleteCategory = async(req,res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         let category = await productCategory.findOne({
             where: {
                 id: req.params.id
@@ -181,6 +205,9 @@ exports.deleteCategory = async(req,res)=>{
 
 exports.deleteProduct = async (req, res)=>{
     try{
+        if(typeof req.session.user === "undefined"){
+            return res.render('login');
+        }
         let product = await Product.findOne({
             where: {
                 id: req.params.id

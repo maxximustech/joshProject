@@ -13,7 +13,7 @@ exports.getAllProducts = async (req,res)=>{
         let carts = await Cart.findAll({
             include: Product
         });
-        res.render('index',{products: products, categories: categories,carts: carts})
+        res.render('index',{products: products, categories: categories,carts: carts,isLoggedIn: typeof req.session.user !== "undefined"})
     }catch(err){
         res.send(err.message);
     }
@@ -24,10 +24,13 @@ exports.newProductPage = async (req,res)=>{
         if(typeof req.session.user === "undefined"){
             return res.render('login');
         }
+        if(req.session.user.role !== "Admin"){
+            return res.redirect('/');
+        }
         let categories = await productCategory.findAll({
             order: [['name','ASC']]
         });
-        res.render('new-product',{productCategories: categories})
+        res.render('new-product',{productCategories: categories,isLoggedIn: typeof req.session.user !== "undefined"})
     }catch(err){
 
     }
@@ -39,7 +42,7 @@ exports.singleProductPage = (req,res)=>{
             id: req.params.id
         }
     }).then(product=>{
-        res.render('single-product',{product: product})
+        res.render('single-product',{product: product,isLoggedIn: typeof req.session.user !== "undefined"})
     }).catch(err=>{
         throw err;
     });
@@ -58,7 +61,7 @@ exports.editProductPage = async (req,res)=>{
             id: req.params.id
         }
     });
-    res.render('edit-product',{product: product})
+    res.render('edit-product',{product: product,isLoggedIn: typeof req.session.user !== "undefined"})
 }
 
 exports.createNewProduct = async (req,res)=>{
@@ -88,7 +91,7 @@ exports.createNewProduct = async (req,res)=>{
             include: [productCategory]
         });
         product.setProductCategories(req.body.category);//'1' || ['1','2']
-        res.redirect('/create-product')
+        res.redirect('/create-product');
     }catch(err){
         res.send(err.message);
     }
@@ -127,7 +130,8 @@ exports.getCategories = async (req,res)=>{
     }
     const categories = await productCategory.findAll();
     res.render('product-category',{
-        categories: categories
+        categories: categories,
+        isLoggedIn: typeof req.session.user !== "undefined"
     });
 }
 exports.createCategory = async (req,res)=>{

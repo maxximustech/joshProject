@@ -30,6 +30,9 @@ exports.postSignUp = async (req,res)=>{
         if(typeof data.password !== 'string' || data.password.trim() === ''){
             throw new Error('Please enter a password');
         }
+        if(typeof data.role !== 'string' || data.role.trim() === ''){
+            throw new Error('Please select a valid role');
+        }
         let salt = bcrypt.genSaltSync(12);
         let hashedPass = bcrypt.hashSync(data.password,salt);
         let newUser = await User.create({
@@ -74,7 +77,21 @@ exports.postLogin = async (req,res)=>{
             throw new Error('The password you have entered is incorrect');
         }
         req.session.user = authUser.dataValues;
-        res.redirect(req.path);
+        setTimeout(()=>{
+            res.redirect('/');
+        },500);
+    }catch(err){
+        res.render('error',{message: err.message});
+    }
+}
+exports.logOut = async (req,res)=>{
+    try{
+        if(typeof req.session.user === "undefined"){
+            return res.redirect('/login');
+        }
+        req.session.destroy(function(){
+            res.redirect('/login');
+        });
     }catch(err){
         res.render('error',{message: err.message});
     }

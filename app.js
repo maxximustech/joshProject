@@ -27,7 +27,7 @@ app.use(session({
     secret: 'joshua is a very hardworking guy',
     store: sequelizeSessionStore,
     cookie: {
-        maxAge: 86400000
+        maxAge: 86400000 //24 hours
     },
     saveUninitialized: false,
     resave: false

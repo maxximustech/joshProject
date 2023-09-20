@@ -23,6 +23,12 @@ module.exports = {
         password: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        role: {
+            type: DataTypes.STRING
+        },
+        ip: {
+            type: DataTypes.STRING
         }
     }
 }
